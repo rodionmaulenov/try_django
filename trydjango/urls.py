@@ -18,7 +18,7 @@ from django.urls import path
 
 from trydjango.views import home_page
 from articles.views import article_search, article_create, article_detail
-from accounts.views import login_view, logout_view
+from accounts.views import login_view, logout_view, register_user
 
 urlpatterns = [
     path('', home_page, name='home_page'),
@@ -28,4 +28,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
+    path('register/', register_user, name='rgisterf'),
 ]

@@ -1,16 +1,19 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
+from articles.forms import ArticleCreateNewForm
 from articles.models import Article
 
 
 @login_required
 def article_create(request):
-    context = {}
-    if request.method == "POST":
-        obj = Article.objects.create(title=request.POST.get('title'), content=request.POST.get('content'))
-        context['object'] = obj
-        context['created'] = True
+    form = ArticleCreateNewForm(request.POST or None)
+    context = {'form': form}
+    if form.is_valid():
+        form.save()
+        context['form'] = ArticleCreateNewForm()
+        # context['object'] = obj
+        # context['created'] = True
     return render(request, 'articles/article_create.html', context=context)
 
 
