@@ -23,8 +23,8 @@ from accounts.views import login_view, logout_view, register_user
 urlpatterns = [
     path('', home_page, name='home_page'),
     path('article/', article_search, name='home_page'),
-    path('article/create/', article_create, name='home_page'),
-    path('article/<int:id>/', article_detail, name='home_page'),
+    path('article/create/', article_create, name='article-create'),
+    path('article/<slug:slug>/', article_detail, name='article-detail'),
     path('admin/', admin.site.urls),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),

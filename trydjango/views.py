@@ -15,7 +15,7 @@ def home_page(request, *args, **kwargs):
         'articles': articles,
         'article_title': article_obj.title,
         'article_content': article_obj.content,
-        'article_id': article_obj.id
+        'article': article_obj
     }
     result = get_template('home.html').render(context)
 

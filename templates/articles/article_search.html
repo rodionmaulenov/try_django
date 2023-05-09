@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<br>
-{{ obj.title }}
-<hr>
-{{ obj.content }}
-
+<ol>
+{% for obj in objs %}
+    {% if obj.title %}
+    <li><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></li>
+    {% endif %}
+{% endfor %}
+</ol>
 {% endblock %}

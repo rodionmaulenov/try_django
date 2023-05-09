@@ -6,7 +6,7 @@ from articles.models import Article
 class ArticleCreateNewForm(forms.ModelForm):
     class Meta:
         model = Article
-        fields = ['content', 'title']
+        fields = ['title', 'content']
 
     def clean(self):
         data = self.cleaned_data

@@ -3,11 +3,16 @@
 {% block content %}
 <br>
 <p>{{x}}</p>
-<h3>{{article_title}} (id: {{article_id}})</h3>
+<h3>{{article_title}} (id: {{article.id}})</h3>
 <hr>
 <p>{{article_content}}</p>
 
+<a href="{% url 'article-create' %}">Article create</a>
+<a href="{% url 'article-detail' slug=article.slug %}">Article detail</a>
+
 {% for article in articles %}
-    <p><a href="/article/{{article.id}}/">{{ article.title }}</a></p>
+    {% if article.title %}
+        <p><a href="{{article.get_absolute_url}}">{{ article.title }}</a></p>
+    {% endif %}
 {% endfor %}
 {% endblock %}
