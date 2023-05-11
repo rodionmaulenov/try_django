@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<p><a href="{% url 'recipes:create' %}">Create recipe</a></p>
+<ol>
+{% for recipe in recipes %}
+    <li><a href="{{ recipe.get_absolute_url }}">{{ recipe.name }}</a></li>
+{% endfor %}
+</ol>
+{% endblock %}

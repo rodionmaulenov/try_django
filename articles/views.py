@@ -14,8 +14,6 @@ def article_create(request):
         obj = form.save()
         context['form'] = ArticleCreateNewForm()
         return redirect(obj.get_absolute_url())
-        # context['object'] = obj
-        # context['created'] = True
     return render(request, 'articles/article_create.html', context=context)
 
 

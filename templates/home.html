@@ -7,8 +7,8 @@
 <hr>
 <p>{{article_content}}</p>
 
-<a href="{% url 'article-create' %}">Article create</a>
-<a href="{% url 'article-detail' slug=article.slug %}">Article detail</a>
+<a href="{% url 'articles:create' %}">Article create</a>
+<a href="{% url 'articles:detail' slug=article.slug %}">Article detail</a>
 
 {% for article in articles %}
     {% if article.title %}
