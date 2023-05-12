@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'articles',
     'accounts',
     'recipes',
+    'search',
 
     #third party packages
     "django_htmx",

@@ -48,6 +48,11 @@ def recipe_create_view(request):
         obj = form.save(commit=False)
         obj.user = request.user
         obj.save()
+        if request.htmx:
+            header = {
+                'HX-Redirect': obj.get_absolute_url()
+            }
+            return HttpResponse('Created', headers=header)
         return redirect(obj.get_absolute_url())
     return render(request, "recipes/create_update.html", context)
 
@@ -80,15 +85,20 @@ def recipe_hx_ingredient_update(request, parent_id=None, id=None):
     if parent is None:
         return HttpResponse("Not found.")
 
-    try:
-        instance = RecipeIngredient.objects.filter(id=id, recipe=parent)
-    except:
-        instance = None
-    if parent is None:
-        return HttpResponse("Not found.")
+    instance = None
+    if id is not None:
+        try:
+            instance = RecipeIngredient.objects.get(id=id, recipe=parent)
+        except:
+            instance = None
 
     form = RecipeIngredientForm(request.POST or None, instance=instance)
+    url = reverse('recipes:hx-ingredient-create', kwargs={'parent_id': parent.id})
+    if instance:
+        url = instance.get_hx_edit_url()
+
     context = {
+        'url': url,
         'form': form,
         "object": instance
     }
@@ -96,7 +106,9 @@ def recipe_hx_ingredient_update(request, parent_id=None, id=None):
         new_obj = form.save(commit=False)
         if instance is None:
             new_obj.recipe = parent
-            new_obj.save()
-            context['object'] = new_obj
-            return render(request, 'recipes/partials/ingredient-forms.html', context)
-    return render(request, 'recipes/partials/ingredient-inline.html', context)
+        new_obj.save()
+        context['object'] = new_obj
+        return render(request, 'recipes/partials/ingredient-inline.html', context)
+    return render(request, 'recipes/partials/ingredient-form.html', context)
+
+

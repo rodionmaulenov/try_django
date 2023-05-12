@@ -26,7 +26,7 @@ class Recipe(models.Model):
     def get_hx_url(self):
         return reverse('recipes:hx-detail', kwargs={'id': self.id})
 
-    def get_recipe_ingredient(self):
+    def get_ingredients_children(self):
         return self.recipeingredient_set.all()
 
 
@@ -41,6 +41,13 @@ class RecipeIngredient(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     created = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
+
+    def get_hx_edit_url(self):
+        kwargs = {
+            'id': self.id,
+            'parent_id': self.recipe.id
+        }
+        return reverse('recipes:hx-ingredient-update', kwargs=kwargs)
 
     def get_absolute_url(self):
         return self.recipe.get_absolute_url()
