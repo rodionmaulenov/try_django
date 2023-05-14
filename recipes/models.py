@@ -1,11 +1,32 @@
 from django.db import models
 from django.conf import settings
 from django.shortcuts import reverse
+from django.db.models import Q
 
 import pint
+import pathlib
+import uuid
 
 from recipes.utils import number_str_to_float
 from recipes.validators import check_valid_value
+
+
+class RecipeQuerySet(models.QuerySet):
+    def search(self, query):
+        if query is None or query == '':
+            return self.none()
+        lookups = (
+                Q(name__icontains=query) | Q(description__icontains=query) | Q(directions__icontains=query)
+        )
+        return self.filter(lookups)
+
+
+class RecipeManager(models.Manager):
+    def get_queryset(self):
+        return RecipeQuerySet(self.model, self._db)
+
+    def search(self, query):
+        return self.get_queryset().search(query)
 
 
 class Recipe(models.Model):
@@ -17,8 +38,17 @@ class Recipe(models.Model):
     created = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
 
+    objects = RecipeManager()
+
+    @property
+    def title(self):
+        return self.name
+
     def get_absolute_url(self):
         return reverse('recipes:detail', kwargs={'id': self.id})
+
+    def get_delete_url(self):
+        return reverse('recipes:delete', kwargs={'id': self.id})
 
     def get_edit_url(self):
         return reverse('recipes:update', kwargs={'id': self.id})
@@ -28,6 +58,16 @@ class Recipe(models.Model):
 
     def get_ingredients_children(self):
         return self.recipeingredient_set.all()
+
+
+def ingredient_directory_path(instance, filename):
+    fpath = pathlib.Path(filename)
+    return f'ingredient/uploads/{uuid.uuid1()}{fpath.suffix}'
+
+
+class RecipeIngredientImage(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    image = models.FileField(upload_to=ingredient_directory_path)
 
 
 class RecipeIngredient(models.Model):
@@ -51,6 +91,13 @@ class RecipeIngredient(models.Model):
 
     def get_absolute_url(self):
         return self.recipe.get_absolute_url()
+
+    def get_delete_url(self):
+        kwargs = {
+            'id': self.id,
+            'parent_id': self.recipe.id
+        }
+        return reverse('recipes:ingredient-delete', kwargs=kwargs)
 
     def convert_to_system(self, system='mks'):
         if self.quantity_as_float is None:

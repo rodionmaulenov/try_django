@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from recipes.models import Recipe, RecipeIngredient
+from recipes.models import Recipe, RecipeIngredient, RecipeIngredientImage
 
 
 class RecipeIngredientInlines(admin.StackedInline):
@@ -17,3 +17,4 @@ class RecipeAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Recipe, RecipeAdmin)
+admin.site.register(RecipeIngredientImage)

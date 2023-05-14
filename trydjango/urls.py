@@ -16,12 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from search.views import search_view
 from trydjango.views import home_page
 from accounts.views import login_view, logout_view, register_user
 
 urlpatterns = [
     # custom
     path('', home_page, name='home_page'),
+    path('search/', search_view, name='search'),
     path('library/recipes/', include('recipes.urls')),
     path('article/', include('articles.urls')),
     # admin

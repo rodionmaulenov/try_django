@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'recipes',
     'search',
 
-    #third party packages
+    # third party packages
     "django_htmx",
 ]
 
@@ -87,7 +87,6 @@ WSGI_APPLICATION = 'trydjango.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
-
 
 DATABASES = {
     'default': {
@@ -159,6 +158,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
+
+STATIC_ROOT = BASE_DIR / 'static-cdn'
+
+MEDIA_ROOT = BASE_DIR / 'static-cdn' / 'media'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

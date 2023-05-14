@@ -1,10 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+Search for {{ request.GET.query }} under {{ request.GET.type|title }}
+{% for object in queryset %}
+    <li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
+{% empty %}
+<li>There are no items to display</li>
 
-</body>
-</html>
+{% endfor %}
+
+{% if request.htmx %}
+    <p><a href="/search/?query={{ request.GET.query }}&type={{ request.GET.type }}">All {{ request.GET.type}}</a></p>
+{% endif %}
+
+
+

@@ -1,6 +1,12 @@
 from django import forms
 
-from recipes.models import Recipe, RecipeIngredient
+from recipes.models import Recipe, RecipeIngredient, RecipeIngredientImage
+
+
+class ImageUploadForm(forms.ModelForm):
+    class Meta:
+        model = RecipeIngredientImage
+        fields = ['image']
 
 
 class RecipeForm(forms.ModelForm):

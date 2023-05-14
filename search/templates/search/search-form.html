@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<div>
+    <form action="/search/" method="GET">
 
-</body>
-</html>
+        <select name="type" id="search-type">
+            {% if request.GET.type == 'article' %}
+             <option value="article" selected>Articles</option>
+            {% else %}
+             <option value="article">Articles</option>
+            {% endif %}
+
+            {% if request.GET.type == 'recipe' %}
+             <option value="recipe" selected>Recipes</option>
+            {% else %}
+             <option value="recipe">Recipes</option>
+            {% endif %}
+        </select>
+
+        <input type="text" name="query" value="{{ request.GET.query }}" hx-get="/search/"
+               hx-trigger="keyup changed delay:600ms" hx-include="#search-type" hx-target="#typehead-results">
+
+        <input type="submit">
+    </form>
+    <div id="typehead-results">
+    </div>
+</div>

@@ -13,10 +13,11 @@
         </div>
        {% endfor %}
 
-
+        <div class='htmx-indicator'>Loading...</div>
         <button class='htmx-inverted-indicator' style='margin-top:10px;' type='submit' >Save</button>
         {% if message %}
         <p>{{ message }}</p>
         {% endif %}
+        <a href='{{ object.get_delete_url }}'>Delete</a>
     </form>
 </div>
