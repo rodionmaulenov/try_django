@@ -1,7 +1,7 @@
 <div>
-    <form action="/search/" method="GET">
+    <form action="/search/" method="GET" class="d-flex">
 
-        <select name="type" id="search-type">
+        <select name="type" id="search-type" class="form-control me-2">
             {% if request.GET.type == 'article' %}
              <option value="article" selected>Articles</option>
             {% else %}
@@ -16,10 +16,13 @@
         </select>
 
         <input type="text" name="query" value="{{ request.GET.query }}" hx-get="/search/"
-               hx-trigger="keyup changed delay:600ms" hx-include="#search-type" hx-target="#typehead-results">
+               hx-trigger="keyup changed delay:600ms" hx-include="#search-type" hx-target="#typehead-results"
+        placeholder="Search" >
 
-        <input type="submit">
+        <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
     <div id="typehead-results">
     </div>
 </div>
+
+

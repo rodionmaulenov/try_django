@@ -4,11 +4,6 @@
 {% block content %}
 
 
-<form action='.' method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type='submit'>Image upload</button>
-</form>
-
+{% include 'recipes/partials/image-form.html' %}
 
 {% endblock content %}

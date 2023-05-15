@@ -168,6 +168,9 @@ def recipe_hx_ingredient_update(request, parent_id=None, id=None):
 
 @login_required
 def image_upload_view(request, parent_id=None):
+    template = 'recipes/image-upload-form.html'
+    if request.htmx:
+        template = 'recipes/partials/image-form.html'
     try:
         parent_instance = Recipe.objects.get(id=parent_id, user=request.user)
     except:
@@ -176,10 +179,9 @@ def image_upload_view(request, parent_id=None):
         raise Http404()
 
     form = ImageUploadForm(request.POST or None, request.FILES or None)
-
+    context = {'form': form}
     if form.is_valid():
         recipe_image = form.save(commit=False)
         recipe_image.recipe = parent_instance
         recipe_image.save()
-    context = {'form': form}
-    return render(request, 'recipes/image-upload-form.html', context)
+    return render(request, template, context)
