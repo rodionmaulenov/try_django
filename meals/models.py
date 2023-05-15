@@ -40,7 +40,7 @@ class MealManager(models.Manager):
             recipe_qs.update(status=MealChoices.ABORTED)
             added = False
         else:
-            meal = Meal(
+            meal = self.model(
                 user_id=user_id,
                 recipe_id=recipe_id,
                 status=MealChoices.PENDING

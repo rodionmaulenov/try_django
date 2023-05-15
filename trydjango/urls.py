@@ -19,6 +19,7 @@ from django.urls import include, path
 from search.views import search_view
 from trydjango.views import home_page
 from accounts.views import login_view, logout_view, register_user
+from meals.views import meal_toggle_queue_view
 
 urlpatterns = [
     # custom
@@ -26,6 +27,7 @@ urlpatterns = [
     path('search/', search_view, name='search'),
     path('library/recipes/', include('recipes.urls')),
     path('article/', include('articles.urls')),
+    path('meal-toggle/<int:recipe_id>/', meal_toggle_queue_view, name='meal-toggle'),
     # admin
     path('admin/', admin.site.urls),
     # register

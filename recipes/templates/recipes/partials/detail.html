@@ -1,18 +1,39 @@
-<h1>{{ object.name }}
-    {% if object.get_edit_url %}
-    <small>
-        <a href='{{ object.get_edit_url }}'>Edit</a>
-        <a href='{{ object.get_delete_url }}' hx-post="{{ object.get_delete_url }}"
-        hx-confirm="Are you sure to delete this object {{ object.name }}" hx-trigger="click"
-        hx-headers="{'X-CSRFToken':'{{csrf_token}}'}">Delete</a>
-    </small>
-    {% endif %}</h1>
-<p>{{ object.description }}</p>
-<p>{{ object.directions }}</p>
+<div class="row">
+    <div class="col-12 col-md-8">
 
-{% for ingredient in object.get_ingredients_children %}
-<h1>{{ ingredient.name }}</h1>
-<p>{{ ingredient.as_imperial }}</p>
-<p>{{ ingredient.as_mks }}</p>
-{% endfor %}
 
+        <h1>{{ object.name }}
+            {% if object.get_edit_url %}
+            <small>
+                <a href='{{ object.get_edit_url }}'>Edit</a>
+                <a href='{{ object.get_delete_url }}' hx-post="{{ object.get_delete_url }}"
+                   hx-confirm="Are you sure to delete this object {{ object.name }}" hx-trigger="click"
+                   hx-headers="{'X-CSRFToken':'{{csrf_token}}'}">Delete</a>
+            </small>
+            {% endif %}</h1>
+        <p>{{ object.description }}</p>
+        <p>{{ object.directions }}</p>
+
+    </div>
+
+    <div class="col-12 col-md-4">
+
+
+        {% for ingredient in object.get_ingredients_children %}
+        {% include 'recipes/partials/ingredient-inline.html' with object=ingredient %}
+        {% endfor %}
+
+        <div class="col-12 col-md-4">
+
+
+            <div id='ingredient-create'>
+
+            </div>
+
+            <button hx-get="{{ new_ingredient_url }}" hx-trigger='click'
+                    hx-target='#ingredient-create' hx-swap='beforeend'>Add ingredient
+            </button>
+
+        </div>
+    </div>
+</div>
